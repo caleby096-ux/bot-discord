@@ -228,4 +228,4 @@ client.on('interactionCreate', async (interaction) => {
   }
 });
 
-client.login('SEU_TOKEN_AQUI');
+client.login(process.env.TOKEN);

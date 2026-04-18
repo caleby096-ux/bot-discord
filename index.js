@@ -25,6 +25,68 @@ client.once('ready', () => {
   console.log(`Bot ligado como ${client.user.tag}`);
 });
 
+function buildPainelEmbed() {
+  return new EmbedBuilder()
+    .setTitle('🛒 Suporte | Infinity Keys')
+    .setDescription(
+      'Central de atendimento! Abra um ticket para ser atendido.\n\n' +
+        '💳 **Formas de pagamento:**\n' +
+        '• PIX (único método disponível)\n\n' +
+        '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+        '📅 **Horários de atendimento:**\n' +
+        'De Segunda a Sexta das 10:00 até as 21:00\n' +
+        'Sábado das 10:00 até as 13:00\n\n' +
+        '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+        '⚠️ **Aviso:**\n' +
+        'O ticket só será fechado caso o cliente tenha efetuado a compra e recebido a key, ou o cliente tenha criado o ticket e não efetuado o pagamento mas se manter ausente.\n\n' +
+        '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+        '📩 **Para iniciar:**\n' +
+        'Selecione uma opção abaixo para abrir seu ticket.'
+    )
+    .setColor(0x0099ff);
+}
+
+function buildPainelSelectRow() {
+  const menu = new StringSelectMenuBuilder()
+    .setCustomId('ticket_select')
+    .setPlaceholder('Escolha a categoria do seu ticket')
+    .addOptions([
+      {
+        label: 'Suporte',
+        description: 'Abrir ticket de suporte',
+        value: 'Suporte',
+      },
+      {
+        label: 'Dúvidas',
+        description: 'Abrir ticket de dúvidas',
+        value: 'Dúvidas',
+      },
+      {
+        label: 'Compras',
+        description: 'Abrir ticket sobre compras',
+        value: 'Compras',
+      },
+      {
+        label: 'Parcerias',
+        description: 'Abrir ticket sobre parcerias',
+        value: 'Parcerias',
+      },
+    ]);
+
+  return new ActionRowBuilder().addComponents(menu);
+}
+
+async function resetPainelSelect(interaction) {
+  try {
+    await interaction.message.edit({
+      embeds: [buildPainelEmbed()],
+      components: [buildPainelSelectRow()],
+    });
+  } catch (err) {
+    console.error('Erro ao resetar o menu do painel:', err);
+  }
+}
+
 client.on('messageCreate', async (message) => {
   if (message.author.bot || !message.guild) return;
 
@@ -43,7 +105,7 @@ client.on('messageCreate', async (message) => {
           '* Steam (única plataforma)\n\n' +
           '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
           '💰 **Valores dos Jogos:**\n' +
-          '* Jogos padrão: R$25,00\n' +
+          '* Jogos padrão: R$20,00\n' +
           '* Jogos com DLC: R$30,00\n\n' +
           '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
           '🎉 **Eventos:**\n' +
@@ -168,54 +230,10 @@ client.on('messageCreate', async (message) => {
   }
 
   if (message.content === '!painel') {
-    const embed = new EmbedBuilder()
-      .setTitle('🛒 Suporte | Infinity Keys')
-      .setDescription(
-        'Central de atendimento! Abra um ticket para ser atendido.\n\n' +
-          '💳 **Formas de pagamento:**\n' +
-          '• PIX (único método disponível)\n\n' +
-          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-          '📅 **Horários de atendimento:**\n' +
-          'De Segunda a Sexta das 10:00 até as 21:00\n' +
-          'Sábado das 10:00 até as 13:00\n\n' +
-          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-          '⚠️ **Aviso:**\n' +
-          'O ticket só será fechado caso o cliente tenha efetuado a compra e recebido a key, ou o cliente tenha criado o ticket e não efetuado o pagamento mas se manter ausente.\n\n' +
-          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-          '📩 **Para iniciar:**\n' +
-          'Selecione uma opção abaixo para abrir seu ticket.'
-      )
-      .setColor(0x0099ff);
-
-    const menu = new StringSelectMenuBuilder()
-      .setCustomId('ticket_select')
-      .setPlaceholder('Escolha a categoria do seu ticket')
-      .addOptions([
-        {
-          label: 'Suporte',
-          description: 'Abrir ticket de suporte',
-          value: 'Suporte',
-        },
-        {
-          label: 'Dúvidas',
-          description: 'Abrir ticket de dúvidas',
-          value: 'Dúvidas',
-        },
-        {
-          label: 'Compras',
-          description: 'Abrir ticket sobre compras',
-          value: 'Compras',
-        },
-        {
-          label: 'Parcerias',
-          description: 'Abrir ticket sobre parcerias',
-          value: 'Parcerias',
-        },
-      ]);
-
-    const row = new ActionRowBuilder().addComponents(menu);
-
-    await message.channel.send({ embeds: [embed], components: [row] });
+    await message.channel.send({
+      embeds: [buildPainelEmbed()],
+      components: [buildPainelSelectRow()],
+    });
   }
 });
 
@@ -236,9 +254,11 @@ client.on('interactionCreate', async (interaction) => {
       );
 
       if (existingChannel) {
-        return interaction.editReply({
+        await interaction.editReply({
           content: `Você já possui um ticket aberto: <#${existingChannel.id}>`,
         });
+        await resetPainelSelect(interaction);
+        return;
       }
 
       const everyoneRole = interaction.guild.roles.everyone;
@@ -309,11 +329,13 @@ client.on('interactionCreate', async (interaction) => {
       await interaction.editReply({
         content: `Seu ticket foi criado: <#${ticketChannel.id}>`,
       });
+      await resetPainelSelect(interaction);
     } catch (error) {
       console.error('Erro ao criar ticket:', error);
       await interaction.editReply({
         content: 'Erro ao criar ticket. Verifique as permissões do bot.',
       });
+      await resetPainelSelect(interaction);
     }
   }
 

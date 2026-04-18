@@ -43,14 +43,8 @@ client.on('messageCreate', async (message) => {
           '* Steam (única plataforma)\n\n' +
           '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
           '💰 **Valores dos Jogos:**\n' +
-          '* Jogos padrão: R$25,00\n' +
-          '* Jogos com DLC: R$34,00\n\n' +
-          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-          '🔥 **Promoções e Packs:**\n' +
-          '* Pack 5 jogos: R$30,00\n' +
-          '* Pack 10 jogos: R$40,00\n' +
-          '* Pack 20 jogos: R$50,00\n\n' +
-          'Todos os jogos são da escolha do cliente.\n\n' +
+          '* Jogos padrão: R$20,00\n' +
+          '* Jogos com DLC: R$30,00\n\n' +
           '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
           '🎉 **Eventos:**\n' +
           'Durante eventos especiais os jogos podem receber descontos exclusivos.\n\n' +

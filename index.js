@@ -12,6 +12,7 @@ const {
 
 const ID_SUPORTE = '1494504276184142025';
 const ID_DONOS = '1494502326759854161';
+const CHAVE_PIX = '718dc9b9-4264-4d95-928e-663a7434069d'; // Sua chave PIX
 
 const client = new Client({
   intents: [
@@ -229,7 +230,11 @@ client.on('interactionCreate', async (interaction) => {
         .setTitle('Ticket criado')
         .setDescription(
           `Olá ${interaction.user}, este canal foi criado para sua solicitação de **${category}**. ` +
-            'Aguarde a equipe de suporte responder aqui.'
+            'Aguarde a equipe de suporte responder aqui.\n\n' +
+            '💳 **Chave PIX para pagamentos:**\n' +
+            `\`${CHAVE_PIX}\`\n\n` +
+            'Use esta chave para realizar pagamentos via PIX.\n\n' +
+            '⚠️ **Antes de enviar o pagamento, verifique se é mesmo eu: Caleby Tomaz**'
         )
         .setColor(0x00ff99)
         .setTimestamp();

@@ -124,6 +124,49 @@ client.on('messageCreate', async (message) => {
     return;
   }
 
+  if (message.content === '!regras') {
+    const embed = new EmbedBuilder()
+      .setTitle('📜 Regras do Servidor | Infinity Keys')
+      .setDescription(
+        'Bem-vindo ao servidor! Para manter um ambiente organizado e seguro para todos, siga as regras abaixo:\n\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+          '🤝 **1. Respeito**\n' +
+          '• Respeite todos os membros do servidor.\n' +
+          '• Proibido ofensas, preconceito, discriminação ou assédio.\n' +
+          '• Mantenha um comportamento educado.\n\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+          '💬 **2. Comunicação**\n' +
+          '• Evite spam, flood ou mensagens repetidas.\n' +
+          '• Use os canais corretamente.\n' +
+          '• Não divulgar outros servidores ou links sem permissão.\n\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+          '🛒 **3. Loja / Produtos**\n' +
+          '• Não tente enganar ou fraudar compras.\n' +
+          '• Respeite os preços definidos na loja.\n' +
+          '• Em caso de dúvidas, fale com o suporte.\n\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+          '🚫 **4. Proibições**\n' +
+          '• Conteúdo ilegal ou prejudicial é proibido.\n' +
+          '• Divulgação de hacks, golpes ou coisas similares não é permitida.\n' +
+          '• Não fingir ser staff ou administrador.\n\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+          '🔐 **5. Segurança**\n' +
+          '• Não compartilhe dados pessoais.\n' +
+          '• Não peça senhas ou informações privadas de outros usuários.\n\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+          '⚠️ **6. Penalidades**\n' +
+          '• Advertência para infrações leves.\n' +
+          '• Mute ou ban para infrações graves ou repetidas.\n\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+          '📌 **7. Observação**\n' +
+          'A staff pode agir fora dessas regras em casos necessários para manter a ordem do servidor.'
+      )
+      .setColor(0xff0000);
+
+    await message.channel.send({ embeds: [embed] });
+    return;
+  }
+
   if (message.content === '!painel') {
     const embed = new EmbedBuilder()
       .setTitle('🛒 Suporte | Infinity Keys')

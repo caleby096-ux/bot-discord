@@ -257,6 +257,16 @@ client.on('interactionCreate', async (interaction) => {
   if (interaction.isButton() && interaction.customId === 'close_ticket') {
     if (!interaction.guild || !interaction.channel) return;
 
+    // Verificar se o usuário tem permissão (Suporte ou Dono)
+    const hasPermission = interaction.member.roles.cache.has(ID_SUPORTE) || interaction.member.roles.cache.has(ID_DONOS);
+
+    if (!hasPermission) {
+      await interaction.deferReply({ ephemeral: true });
+      return interaction.editReply({
+        content: '❌ Você não tem permissão para fechar este ticket.',
+      });
+    }
+
     await interaction.deferReply({ ephemeral: true });
 
     await interaction.editReply({
@@ -265,7 +275,7 @@ client.on('interactionCreate', async (interaction) => {
 
     setTimeout(async () => {
       try {
-        await interaction.channel.delete('Ticket fechado pelo usuário');
+        await interaction.channel.delete('Ticket fechado pela equipe');
       } catch (error) {
         console.error('Erro ao deletar canal:', error);
       }

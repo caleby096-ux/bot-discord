@@ -43,7 +43,7 @@ client.on('messageCreate', async (message) => {
           '* Steam (única plataforma)\n\n' +
           '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
           '💰 **Valores dos Jogos:**\n' +
-          '* Jogos padrão: R$20,00\n' +
+          '* Jogos padrão: R$25,00\n' +
           '* Jogos com DLC: R$30,00\n\n' +
           '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
           '🎉 **Eventos:**\n' +

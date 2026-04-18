@@ -162,89 +162,96 @@ client.on('interactionCreate', async (interaction) => {
 
     await interaction.deferReply({ ephemeral: true });
 
-    const category = interaction.values[0];
-    const ticketName = `ticket-${interaction.user.username
-      .toLowerCase()
-      .replace(/[^a-z0-9]/g, '-')}`;
+    try {
+      const category = interaction.values[0];
+      const ticketName = `ticket-${interaction.user.username
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, '-')}`;
 
-    const existingChannel = interaction.guild.channels.cache.find(
-      (channel) => channel.name === ticketName && channel.type === ChannelType.GuildText
-    );
+      const existingChannel = interaction.guild.channels.cache.find(
+        (channel) => channel.name === ticketName && channel.type === ChannelType.GuildText
+      );
 
-    if (existingChannel) {
-      return interaction.editReply({
-        content: `Você já possui um ticket aberto: <#${existingChannel.id}>`,
+      if (existingChannel) {
+        return interaction.editReply({
+          content: `Você já possui um ticket aberto: <#${existingChannel.id}>`,
+        });
+      }
+
+      const everyoneRole = interaction.guild.roles.everyone;
+
+      const overwrites = [
+        {
+          id: everyoneRole.id,
+          deny: [PermissionFlagsBits.ViewChannel],
+        },
+        {
+          id: interaction.user.id,
+          allow: [
+            PermissionFlagsBits.ViewChannel,
+            PermissionFlagsBits.SendMessages,
+            PermissionFlagsBits.ReadMessageHistory,
+          ],
+        },
+      ];
+
+      if (ID_SUPORTE) {
+        overwrites.push({
+          id: ID_SUPORTE,
+          allow: [
+            PermissionFlagsBits.ViewChannel,
+            PermissionFlagsBits.SendMessages,
+            PermissionFlagsBits.ReadMessageHistory,
+          ],
+        });
+      }
+
+      if (ID_DONOS) {
+        overwrites.push({
+          id: ID_DONOS,
+          allow: [
+            PermissionFlagsBits.ViewChannel,
+            PermissionFlagsBits.SendMessages,
+            PermissionFlagsBits.ReadMessageHistory,
+          ],
+        });
+      }
+
+      const ticketChannel = await interaction.guild.channels.create({
+        name: ticketName,
+        type: ChannelType.GuildText,
+        permissionOverwrites: overwrites,
+        topic: `Ticket de ${interaction.user.id} - Categoria: ${category}`,
+        reason: `Ticket aberto por ${interaction.user.tag} via painel de suporte`,
+      });
+
+      const ticketEmbed = new EmbedBuilder()
+        .setTitle('Ticket criado')
+        .setDescription(
+          `Olá ${interaction.user}, este canal foi criado para sua solicitação de **${category}**. ` +
+            'Aguarde a equipe de suporte responder aqui.'
+        )
+        .setColor(0x00ff99)
+        .setTimestamp();
+
+      const closeButton = new ButtonBuilder()
+        .setCustomId('close_ticket')
+        .setLabel('❌ Fechar Ticket')
+        .setStyle(ButtonStyle.Danger);
+
+      const row = new ActionRowBuilder().addComponents(closeButton);
+
+      await ticketChannel.send({ embeds: [ticketEmbed], components: [row] });
+
+      await interaction.editReply({
+        content: `Seu ticket foi criado: <#${ticketChannel.id}>`,
+      });
+    } catch (error) {
+      console.error('Erro ao criar ticket:', error);
+      await interaction.editReply({
+        content: 'Erro ao criar ticket. Verifique as permissões do bot.',
       });
     }
-
-    const everyoneRole = interaction.guild.roles.everyone;
-
-    const overwrites = [
-      {
-        id: everyoneRole.id,
-        deny: [PermissionFlagsBits.ViewChannel],
-      },
-      {
-        id: interaction.user.id,
-        allow: [
-          PermissionFlagsBits.ViewChannel,
-          PermissionFlagsBits.SendMessages,
-          PermissionFlagsBits.ReadMessageHistory,
-        ],
-      },
-    ];
-
-    if (ID_SUPORTE) {
-      overwrites.push({
-        id: ID_SUPORTE,
-        allow: [
-          PermissionFlagsBits.ViewChannel,
-          PermissionFlagsBits.SendMessages,
-          PermissionFlagsBits.ReadMessageHistory,
-        ],
-      });
-    }
-
-    if (ID_DONOS) {
-      overwrites.push({
-        id: ID_DONOS,
-        allow: [
-          PermissionFlagsBits.ViewChannel,
-          PermissionFlagsBits.SendMessages,
-          PermissionFlagsBits.ReadMessageHistory,
-        ],
-      });
-    }
-
-    const ticketChannel = await interaction.guild.channels.create({
-      name: ticketName,
-      type: ChannelType.GuildText,
-      permissionOverwrites: overwrites,
-      topic: `Ticket de ${interaction.user.id} - Categoria: ${category}`,
-      reason: `Ticket aberto por ${interaction.user.tag} via painel de suporte`,
-    });
-
-    const ticketEmbed = new EmbedBuilder()
-      .setTitle('Ticket criado')
-      .setDescription(
-        `Olá ${interaction.user}, este canal foi criado para sua solicitação de **${category}**. ` +
-          'Aguarde a equipe de suporte responder aqui.'
-      )
-      .setColor(0x00ff99)
-      .setTimestamp();
-
-    const closeButton = new ButtonBuilder()
-      .setCustomId('close_ticket')
-      .setLabel('❌ Fechar Ticket')
-      .setStyle(ButtonStyle.Danger);
-
-    const row = new ActionRowBuilder().addComponents(closeButton);
-
-    await ticketChannel.send({ embeds: [ticketEmbed], components: [row] });
-
-    await interaction.editReply({
-      content: `Seu ticket foi criado: <#${ticketChannel.id}>`,
-    });
   }
 
   if (interaction.isButton() && interaction.customId === 'close_ticket') {

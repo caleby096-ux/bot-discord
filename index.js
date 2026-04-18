@@ -229,6 +229,7 @@ client.on('interactionCreate', async (interaction) => {
     }, 3000);
   }
 });
+
 client.on('messageCreate', (message) => {
   console.log("Mensagem recebida:", message.content);
 
@@ -238,4 +239,5 @@ client.on('messageCreate', (message) => {
     message.reply('FUNCIONOU');
   }
 });
+
 client.login(process.env.TOKEN);

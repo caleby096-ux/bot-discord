@@ -1,5 +1,4 @@
-const { EmbedBuilder } = require('discord.js');
-
+const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const {
   Client,
   GatewayIntentBits,

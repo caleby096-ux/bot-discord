@@ -1,4 +1,3 @@
-
 const {
   Client,
   GatewayIntentBits,
@@ -61,6 +60,44 @@ client.on('messageCreate', async (message) => {
           '* Nome do jogo'
       )
       .setColor(0x00ff00);
+
+    await message.channel.send({ embeds: [embed] });
+    return;
+  }
+
+  if (message.content === '!termos') {
+    const embed = new EmbedBuilder()
+      .setTitle('📜 Termos de Compra | Infinity Keys')
+      .setDescription(
+        '📌 **Introdução da loja**\n' +
+          'Bem-vindo à **Infinity Keys**, sua loja de confiança para compras digitais com foco em segurança, rapidez e praticidade.\n' +
+          'Abaixo estão os termos que regem todas as transações realizadas.\n\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+          '🎮 **Sobre a Infinity Keys**\n' +
+          'A Infinity Keys é uma loja digital especializada na venda de jogos para PC (Steam), oferecendo entrega rápida e suporte ao cliente.\n\n' +
+          'Trabalhamos com envio automatizado e atendimento via ticket para garantir a melhor experiência.\n\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+          '🛒 **Como funciona a compra**\n\n' +
+          '1. Abra um ticket e informe o jogo desejado\n' +
+          '2. Realize o pagamento via PIX\n' +
+          '3. Aguarde a confirmação\n' +
+          '4. Receba sua key com instruções de ativação\n\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+          '🔐 **Ativação e Segurança**\n' +
+          '• Todas as keys são enviadas com instruções claras\n' +
+          '• Recomendamos seguir corretamente o passo a passo\n' +
+          '• Não compartilhe seus dados com terceiros\n' +
+          '• Em caso de problema, será necessário comprovação (como gravação do processo)\n\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+          '📌 **Disposições Gerais**\n' +
+          '• Todos os produtos são digitais (não há entrega física)\n' +
+          '• Após a entrega, não garantimos reembolso, salvo exceções analisadas pela equipe\n' +
+          '• Ao comprar, você concorda com todos os termos da Infinity Keys\n\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+          '📩 **Suporte**\n' +
+          'Em caso de dúvidas ou problemas, abra um ticket e nossa equipe irá te ajudar.'
+      )
+      .setColor(0x8a2be2);
 
     await message.channel.send({ embeds: [embed] });
     return;
@@ -228,44 +265,5 @@ client.on('interactionCreate', async (interaction) => {
     }, 3000);
   }
 });
-
-client.on('messageCreate', (message) => {
-   if (message.author.bot || !message.guild) return;
-
-   console.log("Mensagem recebida:", message.content);
-
-   if (message.content === '!termos') {
-    const embed = new EmbedBuilder()
-      .setTitle('📜 Termos de Compra | Infinity Keys')
-      .setDescription(
-        '📌 **Introdução da loja**\n' +
-          'Bem-vindo à **Infinity Keys**, sua loja de confiança para compras digitais com foco em segurança, rapidez e praticidade.\n' +
-          'Abaixo estão os termos que regem todas as transações realizadas.\n\n' +
-          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-          '🎮 **Sobre a Infinity Keys**\n' +
-          'A Infinity Keys é uma loja digital especializada na venda de jogos para PC (Steam), oferecendo entrega rápida e suporte ao cliente.\n\n' +
-          'Trabalhamos com envio automatizado e atendimento via ticket para garantir a melhor experiência.\n\n' +
-          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-          '🛒 **Como funciona a compra**\n\n' +
-          '1. Abra um ticket e informe o jogo desejado\n' +
-          '2. Realize o pagamento via PIX\n' +
-          '3. Aguarde a confirmação\n' +
-          '4. Receba sua key com instruções de ativação\n\n' +
-          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-          '🔐 **Ativação e Segurança**\n' +
-          '• Todas as keys são enviadas com instruções claras\n' +
-          '• Recomendamos seguir corretamente o passo a passo\n' +
-          '• Não compartilhe seus dados com terceiros\n' +
-          '• Em caso de problema, será necessário comprovação (como gravação do processo)\n\n' +
-          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-          '📌 **Disposições Gerais**\n' +
-          '• Todos os produtos são digitais (não há entrega física)\n' +
-          '• Após a entrega, não garantimos reembolso, salvo exceções analisadas pela equipe\n' +
-          '• Ao comprar, você concorda com todos os termos da Infinity Keys\n\n' +
-          '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-          '📩 **Suporte**\n' +
-          'Em caso de dúvidas ou problemas, abra um ticket e nossa equipe irá te ajudar.'
-      )
-      .setColor(0x8a2be2);
 
 client.login(process.env.TOKEN);

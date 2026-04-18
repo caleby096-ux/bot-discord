@@ -137,8 +137,7 @@ client.on('messageCreate', async (message) => {
           'Sábado das 10:00 até as 13:00\n\n' +
           '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
           '⚠️ **Aviso:**\n' +
-          'Todos os tickets são resetados no fim do dia.\n' +
-          'Se seu ticket tiver sido fechado, verifique a transcrição antes de abrir outro.\n\n' +
+          'O ticket só será fechado caso o cliente tenha efetuado a compra e recebido a key, ou o cliente tenha criado o ticket e não efetuado o pagamento mas se manter ausente.\n\n' +
           '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
           '📩 **Para iniciar:**\n' +
           'Selecione uma opção abaixo para abrir seu ticket.'

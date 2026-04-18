@@ -230,13 +230,17 @@ client.on('interactionCreate', async (interaction) => {
 });
 
 client.on('messageCreate', (message) => {
-  console.log("Mensagem recebida:", message.content);
+   if (message.author.bot || !message.guild) return;
 
-  if (message.author.bot) return;
+   console.log("Mensagem recebida:", message.content);
 
-  if (message.content === '!termos') {
-    message.reply('FUNCIONOU');
-  }
+   if (message.content === '!termos') {
+     message.reply('FUNCIONOU');
+     return;
+   }
+
+   if (message.content === '!jogos') {
+   }
 });
 
 client.login(process.env.TOKEN);

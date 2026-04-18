@@ -103,6 +103,33 @@ client.on('messageCreate', async (message) => {
     return;
   }
 
+  if (message.content === '!denuvo') {
+    const embed = new EmbedBuilder()
+      .setTitle('🔓 Remoção de Denuvo | Infinity Keys')
+      .setDescription(
+        '# Remoção do DENUVO automática / manualmente 24h\n\n' +
+          '**Jogos disponíveis:**\n\n' +
+          '*Resident Evil Requiem*\n' +
+          '*Crimson Desert*\n' +
+          '*Stellar Blade*\n' +
+          '*Street Fighters 6*\n' +
+          '*Digimon Story Time Stranger*\n' +
+          '*Code Vein 2*\n' +
+          '*Hogwarts Legacy*\n' +
+          '*Mortal Kombat 1*\n' +
+          '*Borderlands 4*\n' +
+          '*F1 25*\n' +
+          '*NBA 2K26*\n' +
+          '*The First Berzerker Khazan*\n' +
+          '*DRAGON BALL FighterZ*\n\n' +
+          'Esses jogos acima podem já ir sem Denuvo normalmente, caso apareça o Denuvo, conseguimos resolver a qualquer momento, basta nos chamar. Jogos que não estão nessa lista, só conseguimos remover o Denuvo em um horário específico, das 21:30 até as 12:30 do outro dia.'
+      )
+      .setColor(0xff4500);
+
+    await message.channel.send({ embeds: [embed] });
+    return;
+  }
+
   if (message.content === '!painel') {
     const embed = new EmbedBuilder()
       .setTitle('🛒 Suporte | Infinity Keys')

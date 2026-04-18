@@ -335,7 +335,7 @@ client.on('interactionCreate', async (interaction) => {
         interaction.deleteReply().catch((err) => {
           console.error('Erro ao apagar confirmação do ticket:', err);
         });
-      }, 5000);
+      }, 1000);
     } catch (error) {
       console.error('Erro ao criar ticket:', error);
       await interaction.editReply({

@@ -10,8 +10,8 @@ const {
   PermissionFlagsBits,
 } = require('discord.js');
 
-const ID_SUPORTE = 'SEU_ID_SUPORTE';
-const ID_DONOS = 'SEU_ID_DONOS';
+const ID_SUPORTE = '1494504276184142025';
+const ID_DONOS = '1494502326759854161';
 
 const client = new Client({
   intents: [

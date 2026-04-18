@@ -229,16 +229,13 @@ client.on('interactionCreate', async (interaction) => {
     }, 3000);
   }
 });
-client.on('messageCreate', async (message) => {
+client.on('messageCreate', (message) => {
+  console.log("Mensagem recebida:", message.content);
+
   if (message.author.bot) return;
 
   if (message.content === '!termos') {
-    const embed = new EmbedBuilder()
-      .setTitle('📜 Termos de Compra | Infinity Keys')
-      .setDescription('Aqui vão seus termos...')
-      .setColor(0x2b2d31);
-
-    message.channel.send({ embeds: [embed] });
+    message.reply('FUNCIONOU');
   }
 });
 client.login(process.env.TOKEN);

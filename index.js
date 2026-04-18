@@ -330,6 +330,12 @@ client.on('interactionCreate', async (interaction) => {
         content: `Seu ticket foi criado: <#${ticketChannel.id}>`,
       });
       await resetPainelSelect(interaction);
+
+      setTimeout(() => {
+        interaction.deleteReply().catch((err) => {
+          console.error('Erro ao apagar confirmação do ticket:', err);
+        });
+      }, 5000);
     } catch (error) {
       console.error('Erro ao criar ticket:', error);
       await interaction.editReply({
